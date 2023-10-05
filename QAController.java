@@ -1,55 +1,49 @@
-import java.util.ArrayList;
 
 public class QAController {
-    private static ArrayList<String> questions = new ArrayList<String>();
-    private static boolean questionChange = false;
+    private static String question = null;
+    private static int counter = 0;
 
-    public synchronized void putQuestion(String question) {
-        while (questionChange) {
+    public synchronized void putQuestion(String Q) {
+        while (question != null) {
             try {
+                System.out.println("Waiting for question to be answered.");
                 wait();
             } catch (InterruptedException e) {
             }
         }
-        questionChange = true;
-        questions.add(question);
+        question = Q;
+        counter++;
         System.out.println("Question added: " + question);
-        questionChange = false;
         notifyAll();
     }
 
     public synchronized String getQuestion() {
-        while (questions.size() == 0) {
-            System.out.println("No questions available.");
-            return null;
-        }
-        String[] question = questions.get(0).split("###");
-        return question[0];
-    }
-
-    public synchronized int answerQuestion(String answer) {
-        while (questionChange) {
+        if (question == null) {
             try {
-                wait();
+                wait(25);
             } catch (InterruptedException e) {
             }
+            return null;
         }
-        questionChange = true;
-        if (questions.size() == 0) {
-            questionChange = false;
+        String[] returnQ = question.split("###");
+        return returnQ[0];
+    }
+
+    public synchronized int answerQuestion(String answer, int num) {
+        if (question == null) {
             notifyAll();
             return 0;
         }
-        String[] questionArray = questions.get(0).split("###");
-        System.out.println("Correct answer: " + questionArray[1]);
+        if (num != counter) {
+            notifyAll();
+            return 0;
+        }
+        String[] questionArray = question.split("###");
         if (questionArray[1].equalsIgnoreCase(answer)) {
-            System.out.println("Client answer: " + answer);
-            questions.remove(0);
-            questionChange = false;
+            question = null;
             notifyAll();
             return 1;
         } else {
-            questionChange = false;
             notifyAll();
             return -1;
         }

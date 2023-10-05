@@ -34,10 +34,11 @@ public class QAClient {
 
             // Questioner
             if (userInput.equalsIgnoreCase("Q")) {
-                System.out.println("Enter a question or 'Quit.' to quit: ");
+                System.out.println("Enter a question or 'Bye.' to quit: ");
                 while ((userInput = stdIn.readLine()) != null) {
-                    if (userInput.equalsIgnoreCase("Quit.")) {
+                    if (userInput.equalsIgnoreCase("Bye.")) {
                         out.println(userInput);
+                        System.out.println(in.readLine());
                         echoSocket.close();
                         out.close();
                         in.close();
@@ -47,13 +48,14 @@ public class QAClient {
                     System.out.println("Enter the answer to your question: ");
                     userInput = stdIn.readLine();
                     out.println(question + "###" + userInput);
+                    System.out.println("Question sent. Please wait for your question to be processed.");
                     System.out.println(in.readLine());
-                    System.out.println("Enter a question or 'Quit.' to quit: ");
+                    System.out.println("Enter a question or 'Bye.' to quit: ");
                 }
 
                 // Answerer
             } else if (userInput.equalsIgnoreCase("A")) {
-                System.out.println("Welcome! You may respond to questions as they come in, or enter 'Quit.' to quit.");
+                System.out.println("Welcome! You may respond to questions as they come in, or enter 'Bye.' to quit.");
                 System.out.println("Fetching question...");
                 while ((question = in.readLine()) != null) {
                     if (question.equalsIgnoreCase("No questions available. Please wait for the next question.")) {
@@ -61,10 +63,11 @@ public class QAClient {
                         System.out.println("Fetching question...");
                     } else {
                         System.out.println(question);
-                        System.out.print("Enter your answer or enter 'Quit.' to quit: ");
+                        System.out.print("Enter your answer or enter 'Bye.' to quit: ");
                         userInput = stdIn.readLine();
-                        if (userInput.equalsIgnoreCase("Quit.")) {
+                        if (userInput.equalsIgnoreCase("Bye.")) {
                             out.println(userInput);
+                            System.out.println(in.readLine());
                             echoSocket.close();
                             out.close();
                             in.close();
@@ -73,7 +76,7 @@ public class QAClient {
                         out.println(userInput);
                         response = in.readLine();
                         System.out.println(response);
-                        if (response.equalsIgnoreCase("Wrong!")) {
+                        if (response.substring(0, 2).equals("Wr")) {
                             try {
                                 System.out.println("Two second penalty!");
                                 Thread.sleep(2000);
@@ -83,6 +86,7 @@ public class QAClient {
                         System.out.println("Fetching question...");
                     }
                 }
+
             } else {
                 System.out.println("Invalid input.");
                 System.exit(1);
