@@ -26,4 +26,4 @@ Description: A distributed system for conducting question and answer contests. U
 
 Description: A script that demonstrates the use of multithreading to perform merge sorting on a large dataset. The script divides the dataset into smaller chunks, sorts them concurrently using multiple threads, and merges the sorted chunks to produce the final sorted result.
 
-Feel free to explore each project in detail by navigating to their respective directories.
+*Feel free to explore each project in detail by navigating to their respective directories.*
