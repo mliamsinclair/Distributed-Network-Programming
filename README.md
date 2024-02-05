@@ -20,7 +20,7 @@ A decentralized group chat system where users can join different chat groups and
 
 ## Question and Answer Contest System
 
-A distributed system for conducting question and answer contests. Users can submit questions, participate in answering questions, and earn points based on their performance. The system handles question distribution, answer validation, and leaderboard management.
+A system for conducting question and answer contests. Users can submit questions, participate in answering questions, and earn points based on their performance. The system handles question distribution, answer validation, and leaderboard management.
 
 ## Multithreaded Merge Sorting Script
 
